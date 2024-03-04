@@ -1,0 +1,15 @@
+#done
+appName: adservice
+appImage: gcr.io/google-samples/microservices-demo/adservice
+appVersion: v0.8.0
+appReplicas: 2
+containerPort: 9555
+containerEnvVars:
+- key: PORT
+  value: 9555
+- key: DISABLE_TRACING
+  value: "1"
+- key: DISABLE_PROFILER
+  value: "1"
+
+servicePort: 9555

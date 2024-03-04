@@ -1,0 +1,31 @@
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: AlertmanagerConfig
+metadata:
+  name: main-rules-alert-config
+  namespace: monitoring
+spec:
+  route:
+# This alert should be routed to this receiver. This applies to both routes
+    receiver: 'email'
+    repeatInterval: 30m
+# These are the child rules
+    routes:
+    - matchers:
+      - name: alertname
+        value: HostHighCpuLoad
+    - matchers:
+      - name: alertname
+        value: KubernetesPodCrashLooping
+# This alert is imporant and has to be send every 10 minutes.
+      repeatInterval: 10m
+  receivers:
+  - name: 'email'
+    emailConfigs:
+    - to: 'kubernetes@mailbox.org'
+      from: 'kubernetes@mailbox.org'
+      smarthost: 'smtp.mailbox.org:465'
+      authUsername: 'kubernetes@mailbox.org'
+      authIdentity: 'kubernetes@mailbox.org'
+      authPassword:
+        name: mailbox-auth
+        key: password

@@ -1,0 +1,28 @@
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: AlertmanagerConfig
+metadata:
+  name: main-rules-alert-config
+  namespace: monitoring
+spec:
+  route:
+    receiver: 'email'
+    repeatInterval: 30m
+    routes:
+    - matchers:
+      - name: alertname
+        value: HostHighCpuLoad
+    - matchers:
+      - name: alertname
+        value: KubernetesPodCrashLooping
+      repeatInterval: 10m
+  receivers:
+  - name: 'email'
+    emailConfigs:
+    - to: 'kubernetes@mailbox.org'
+      from: 'kubernetes@mailbox.org'
+      smarthost: 'smtp.mailbox.org:587'
+      authUsername: 'kubernetes@mailbox.org'
+      authIdentity: 'kubernetes@mailbox.org'
+      authPassword:
+        name: mailbox-auth
+        key: password

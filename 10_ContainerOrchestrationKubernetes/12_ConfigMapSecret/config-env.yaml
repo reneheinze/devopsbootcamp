@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: renesconfigmap
+data:
+    db_host: mongodb-service
+    test: "dsfsfsdfsdfdsw"
